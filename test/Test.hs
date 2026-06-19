@@ -21,6 +21,6 @@ main = do
     let a === b = if a == b then putStr "." else fail $ "Mismatch: " ++ show a ++ " /= " ++ show b
     modifyField @'("bar","foo") (Bar $ Foo 12) (*2) === Bar {bar = Foo {foo = 24}}
     getField @"foo" (Foo 3) === 3
-    setField @"_1" (1, True) 8 === (8, True)
+    fst (hasField @"_1" (1, True)) 8 === (8, True)
     modifyField @'("_1","_2") ((1,2),3,4,5) negate === ((1,-2),3,4,5)
     putStrLn " success"

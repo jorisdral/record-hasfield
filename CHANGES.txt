@@ -1,5 +1,7 @@
 Changelog for record-hasfield
 
+1.1.0, ?
+    Change the argument order of `setField` on GHC versions >= 9.14
 1.0.1, released 2024-01-21
     Add required extension for newer GHC
 1.0, released 2019-03-21

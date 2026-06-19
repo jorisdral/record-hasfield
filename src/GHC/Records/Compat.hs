@@ -1,4 +1,5 @@
 {-# LANGUAGE AllowAmbiguousTypes #-}
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE FunctionalDependencies #-}
 {-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE ScopedTypeVariables #-}
@@ -32,5 +33,12 @@ getField :: forall x r a. (HasField x r a) => r -> a
 getField = snd . hasField @x
 
 -- | Set a field in a record.
-setField :: forall x r a. (HasField x r a) => r -> a -> r
-setField = fst . hasField @x
+--
+-- NOTE: the order of arguments is GHC version dependent.
+#if __GLASGOW_HASKELL__ >=914
+setField :: forall x r a. GHC.Records.Compat.HasField x r a => a -> r -> r
+setField = flip (fst . GHC.Records.Compat.hasField @x)
+#else
+setField :: forall x r a. GHC.Records.Compat.HasField x r a => r -> a -> r
+setField = fst . GHC.Records.Compat.hasField @x
+#endif
